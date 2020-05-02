@@ -6,39 +6,21 @@ daemon off;
 error_log /var/log/nginx/error.log debug;
 
 http {
-    access_log /var/log/nginx/access.log;
+   access_log /var/log/nginx/access.log;
 
-    server {
-        rewrite_log on;
+   server {
+        listen SERVER_PORT;
+        server_name SERVER_NAME;
+        charset utf-8;
 
-        listen 8000;
-        server_name $HOST;
-
-        location ~ /FLOWER_URL_PREFIX$ {
-            rewrite ^/FLOWER_URL_PREFIX$ / break;
+        location / {
             proxy_pass http://127.0.0.1:5555;
             proxy_set_header Host $host;
+            proxy_redirect off;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
         }
-
-        location ~ /FLOWER_URL_PREFIX/(static|tasks|broker|monitor|dashboard|login) {
-            rewrite ^/FLOWER_URL_PREFIX(.*)$ $1 break;
-            proxy_pass http://127.0.0.1:5555;
-            proxy_set_header Host $host;
-        }
-
-
-        location ~ /FLOWER_URL_PREFIX {
-            rewrite ^/FLOWER_URL_PREFIX(.*)$ $1 break;
-            proxy_pass http://127.0.0.1:5555;
-            proxy_set_header Host $host;
-        }
-
-        location "" {
-            rewrite ^/(.*)$ /FLOWER_URL_PREFIX/$1 break;
-            proxy_pass http://127.0.0.1:5555/;
-            proxy_set_header Host $host;
-        }
-
     }
 
 }

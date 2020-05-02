@@ -11,6 +11,8 @@ USER root
 #ENV FLOWER_OAUTH2_SECRET ""
 #ENV FLOWER_OAUTH2_VALIDATE ""
 #ENV FLOWER_AUTH ""
+ENV SERVER_NAME "flower"
+ENV SERVER_PORT 8000
 
 RUN apk add --no-cache --virtual .build-deps \
     gcc \
