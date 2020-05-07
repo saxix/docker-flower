@@ -16,7 +16,7 @@ http {
 
         location ~ /FLOWER_URL_PREFIX$ {
             rewrite ^/FLOWER_URL_PREFIX$ / break;
-            proxy_pass http://127.0.0.1:5555;
+            proxy_pass http://FLOWER_ADDRESS:5555;
             proxy_set_header Host $host;
             proxy_set_header Upgrade $http_upgrade;
             proxy_http_version 1.1;
@@ -25,7 +25,7 @@ http {
 
         location ~ /FLOWER_URL_PREFIX/(static|tasks|broker|monitor|dashboard|login) {
             rewrite ^/FLOWER_URL_PREFIX(.*)$ $1 break;
-            proxy_pass http://127.0.0.1:5555;
+            proxy_pass http://FLOWER_ADDRESS:5555;
             proxy_set_header Host $host;
             proxy_set_header Upgrade $http_upgrade;
             proxy_http_version 1.1;
@@ -35,7 +35,7 @@ http {
 
         location ~ /FLOWER_URL_PREFIX {
             rewrite ^/FLOWER_URL_PREFIX(.*)$ $1 break;
-            proxy_pass http://127.0.0.1:5555;
+            proxy_pass http://FLOWER_ADDRESS:5555;
             proxy_set_header Host $host;
             proxy_set_header Upgrade $http_upgrade;
             proxy_http_version 1.1;
@@ -44,7 +44,7 @@ http {
 
         location "" {
             rewrite ^/(.*)$ /FLOWER_URL_PREFIX/$1 break;
-            proxy_pass http://127.0.0.1:5555;
+            proxy_pass http://FLOWER_ADDRESS:5555;
             proxy_set_header Host $host;
             proxy_set_header Upgrade $http_upgrade;
             proxy_http_version 1.1;

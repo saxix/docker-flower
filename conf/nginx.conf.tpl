@@ -14,7 +14,7 @@ http {
         charset utf-8;
 
         location / {
-            proxy_pass http://127.0.0.1:5555;
+            proxy_pass http://FLOWER_ADDRESS:5555;
             proxy_set_header Host $host;
             proxy_redirect off;
             proxy_http_version 1.1;

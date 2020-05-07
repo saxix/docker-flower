@@ -1,5 +1,5 @@
 CMD?=
-VERSION?=`cat VERSION`
+VERSION?='1.3'
 DOCKER_IMAGE?=saxix/flower
 DOCKERFILE?=Dockerfile
 BUILD_OPTIONS?=--squash --compress --rm
@@ -48,7 +48,7 @@ build:
 			-e FLOWER_OAUTH2_VALIDATE=${FLOWER_OAUTH2_VALIDATE} \
 			-e FLOWER_OAUTH2_REDIRECT_URI=${FLOWER_OAUTH2_REDIRECT_URI} \
 			-e FLOWER_AUTH=.* \
-			-e FLOWER_URL_PREFIX=flower \
+			-e FLOWER_URL_PREFIX= \
 			-e FLOWER_DEBUG=true \
 			-it ${DOCKER_IMAGE}:${VERSION} \
 			${CMD}
@@ -56,10 +56,13 @@ build:
 run:
 	$(MAKE) .run
 
+config:
+	CMD='config' $(MAKE) .run
+
 shell:
 	CMD='/bin/sh' $(MAKE) run
 
-push:
+release:
 	docker tag ${DOCKER_IMAGE}:${VERSION} ${DOCKER_IMAGE}:latest
 	docker push ${DOCKER_IMAGE}:${VERSION}
 	docker push ${DOCKER_IMAGE}:latest

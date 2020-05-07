@@ -1,4 +1,5 @@
-FROM mher/flower:0.9
+FROM python:alpine
+
 ARG PIP_INDEX_URL
 ARG PIP_TRUSTED_HOST
 ENV PIP_INDEX_URL=$PIP_INDEX_URL
@@ -11,8 +12,12 @@ USER root
 #ENV FLOWER_OAUTH2_SECRET ""
 #ENV FLOWER_OAUTH2_VALIDATE ""
 #ENV FLOWER_AUTH ""
-ENV SERVER_NAME "flower"
-ENV SERVER_PORT 8000
+ENV SERVER_NAME="flower" \
+    SERVER_PORT="8000" \
+    FLOWER_ADDRESS="127.0.0.1" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONHASHSEED=random \
+    PYTHONDONTWRITEBYTECODE=1
 
 RUN apk add --no-cache --virtual .build-deps \
     gcc \
@@ -22,13 +27,19 @@ RUN apk add --no-cache --virtual .build-deps \
     openssl-dev \
     python3-dev
 
-
-RUN apk add --update ca-certificates \
+RUN apk add --no-cache \
+    bash \
+    ca-certificates \
+    su-exec \
     nginx \
     sed \
     && update-ca-certificates
 
-RUN pip install flower-oauth-azure[verification]==1.0
+RUN pip install --no-cache-dir \
+        redis \
+        tornado==5.1.1 \
+        flower==1.0 \
+        flower-oauth-azure[verification]==1.0
 
 
 RUN apk del .build-deps \
@@ -39,7 +50,7 @@ COPY conf/ /conf
 COPY VERSION /
 RUN chmod +x /entrypoint.sh \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
+    && ln -sf /dev/stderr /var/log/nginx/error.log
 
 
 EXPOSE 5555
