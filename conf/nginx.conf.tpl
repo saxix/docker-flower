@@ -10,8 +10,13 @@ http {
 
    server {
         listen SERVER_PORT;
-        server_name SERVER_NAME;
+
         charset utf-8;
+
+        location /_health {
+            access_log off;
+            return 200 "healthy\n";
+        }
 
         location / {
             proxy_pass http://FLOWER_ADDRESS:5555;

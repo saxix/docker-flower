@@ -38,7 +38,7 @@ RUN apk add --no-cache \
 RUN pip install --no-cache-dir \
         redis \
         tornado==5.1.1 \
-        flower==1.0 \
+        flower==0.9.4 \
         flower-oauth-azure[verification]==1.0
 
 
@@ -54,6 +54,7 @@ RUN chmod +x /entrypoint.sh \
 
 
 EXPOSE 5555
+EXPOSE 8000
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["start"]

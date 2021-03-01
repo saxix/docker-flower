@@ -10,9 +10,13 @@ http {
 
     server {
         rewrite_log on;
-        server_name SERVER_NAME;
 
         listen SERVER_PORT;
+
+        location /_health {
+            access_log off;
+            return 200 "healthy\n";
+        }
 
         location ~ /FLOWER_URL_PREFIX$ {
             rewrite ^/FLOWER_URL_PREFIX$ / break;

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 mkdir -p /run/nginx/
 
@@ -15,10 +15,12 @@ else
   TEMPLATE='/conf/nginx.prefix.conf.tpl';
 fi
 
-if [ "$*" = "config" ]; then
+if [ "$*" == "config" ]; then
   doconfig
   cat /conf/nginx.conf
-elif [ "$*" = "start" ]; then
+elif [ "$*" == "start" ]; then
+    echo "Starting NGINX on port ${SERVER_PORT}"
+    echo "Starting Flower ${FLOWER_ADDRESS}"
     doconfig
     flower --version
     flower auto_refresh=false &
