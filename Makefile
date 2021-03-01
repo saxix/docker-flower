@@ -1,5 +1,5 @@
 CMD?=
-VERSION?='1.4'
+VERSION?='1.5'
 DOCKER_IMAGE?=saxix/flower
 DOCKERFILE?=Dockerfile
 BUILD_OPTIONS?=--squash --compress --rm
