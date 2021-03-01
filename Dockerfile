@@ -1,4 +1,4 @@
-FROM python:alpine
+FROM python:3.8.8-alpine3.12
 
 ARG PIP_INDEX_URL
 ARG PIP_TRUSTED_HOST
@@ -43,7 +43,7 @@ RUN apk add --no-cache \
 RUN pip install --no-cache-dir \
         redis \
         tornado==5.1.1 \
-        flower==0.9.4 \
+        flower==0.9.7 \
         flower-oauth-azure[verification]==1.0
 
 
